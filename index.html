@@ -6,5 +6,5 @@
 <button class=g onclick="set('Lumela, ke mothusi oa lentsoe oa Sesotho.')">Lumela</button>
 <button class=g onclick="set('Khotso, pula, nala.')">Khotso, pula, nala</button>
 <div id=s></div><audio id=a controls style="width:100%"></audio>
-<p><small>First request after idle can take about a minute while the server wakes up. Demo only.</small></p>
-<script>function set(x){t.value=x;go()}async function go(){s.textContent='Working...';try{const r=await fetch('/api/tts',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text:t.value})});if(!r.ok){s.textContent='Error '+r.status;return}const b=await r.blob();a.src=URL.createObjectURL(b);a.play();s.textContent='Done'}catch(e){s.textContent='Error: '+e}}</script></body></html>
+<p><small>Free server: the first load can take about 50 seconds to wake up. Demo only, not a final voice.</small></p>
+<script>function set(x){t.value=x;go()}async function go(){s.textContent='Working...';try{for(let i=0;i<40;i++){const h=await fetch('/health');if((await h.text())==='ready')break;s.textContent='Waking up the voice, please wait ('+(i*3)+'s)...';await new Promise(r=>setTimeout(r,3000))}const r=await fetch('/api/tts',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text:t.value})});if(!r.ok){s.textContent='Error '+r.status;return}const b=await r.blob();a.src=URL.createObjectURL(b);a.play();s.textContent='Done'}catch(e){s.textContent='Error: '+e}}</script></body></html>
