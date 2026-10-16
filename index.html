@@ -1,0 +1,10 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>NahaLabs Sesotho Voice (demo)</title>
+<style>body{font-family:system-ui,sans-serif;background:#f6f3ec;color:#1d2b22;margin:0;padding:20px;max-width:640px;margin:auto}h1{color:#355241;font-size:22px}textarea{width:100%;height:110px;font-size:18px;padding:10px;border:1px solid #c8ae82;border-radius:10px;box-sizing:border-box}button{background:#355241;color:#fff;border:0;border-radius:10px;padding:12px 18px;font-size:16px;margin:6px 6px 0 0}button.g{background:#c8ae82;color:#1d2b22}#s{margin:10px 0;color:#555}small{color:#777}</style></head><body>
+<h1>NahaLabs Sesotho Voice</h1><p>Type Sesotho, tap Speak. Demo voice (not yet matched to a specific speaker).</p>
+<textarea id=t>Lumela ntate, le phela joang? Ke leboha haholo ka nako ea hau.</textarea><br>
+<button onclick="go()">Speak</button>
+<button class=g onclick="set('Lumela, ke mothusi oa lentsoe oa Sesotho.')">Lumela</button>
+<button class=g onclick="set('Khotso, pula, nala.')">Khotso, pula, nala</button>
+<div id=s></div><audio id=a controls style="width:100%"></audio>
+<p><small>First request after idle can take about a minute while the server wakes up. Demo only.</small></p>
+<script>function set(x){t.value=x;go()}async function go(){s.textContent='Working...';try{const r=await fetch('/api/tts',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text:t.value})});if(!r.ok){s.textContent='Error '+r.status;return}const b=await r.blob();a.src=URL.createObjectURL(b);a.play();s.textContent='Done'}catch(e){s.textContent='Error: '+e}}</script></body></html>
